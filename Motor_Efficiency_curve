@@ -1,0 +1,38 @@
+% (a)Write a Matlab program to plot motor efficiency curve
+N = linspace(1,1000,50); %Speed
+T = linspace(1,250,50); %Torque
+Kc = 0.2;
+Ki = 0.08;
+Kw = 0.00001;
+ConstLoss = 400; %Constant Loss
+[X,Y] = meshgrid(N,T);
+Out_power = X.*Y; %Output power
+Cu_loss = (Y.^2)*Kc; %Copper loss
+Fe_loss = (N*Ki); %Iron loss
+Wind_loss = ((X.^3).*Kw); %Windage loss
+Inp_power = Out_power + Cu_loss+ Fe_loss+ Wind_loss + ConstLoss; %Input power
+E = Out_power./Inp_power; %Efficiency
+%(b) Plot a 3D plot between torque, speed and efficiency.
+figure(1);
+plot3(X,Y,E);
+xlabel("Motor Speed rad/sec");
+ylabel("Torque N-m");
+zlabel("Efficiency");
+title("Plot between Motor speed, Torque and Efficiency");;
+%(c) Plot a contour map between torque, speed and efficiency, where efficiency (0.6,0.7,0.8,0.9).
+D = [0.6, 0.7, 0.8, 0.9];
+grid off;
+figure(2);
+contour(X,Y,E,D);
+xlabel("Motor Speed rad/sec");
+ylabel("Torque N-m");
+title("Efficiency contour");
+%(d) Plot a contour map between torque, speed and efficiency, where input power (5000 and 7000) Watts.
+figure(3);
+contour(X,Y,E,D);
+xlabel("Motor Speed rad/sec");
+ylabel("Torque N-m");
+title("Efficiency contour");
+hold on;
+F = [5000, 7000];
+contour(X,Y,Inp_power,F);
